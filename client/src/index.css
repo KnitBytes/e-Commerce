@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+/* SWIPER OVERRIDES */
+.swiper {
+  width: 100vw !important; /* Force full viewport width */
+  overflow: visible !important; /* Show navigation arrows */
+}
+
+.swiper-slide {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* IMAGE CONTAINMENT */
+.swiper-slide img {
+  min-width: 100%;
+  min-height: 100%;
+  object-position: center;
+}
+
+/* Ensure featured categories has proper spacing */
+.featured-categories-section {
+  margin-top: 4rem;
+  position: relative;
+  z-index: 1;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+display: none !important;
+}
+

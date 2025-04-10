@@ -1,0 +1,352 @@
+[
+  {
+    "id": 1,
+    "name": "Organic Apples",
+    "price": 199,
+    "category": "Fruits",
+    "brand": "Organic",
+    "image": "/images/category/fruits.jpg?height=200&width=200",
+    "rating": 4.5,
+    "likes": 1349
+  },
+  {
+    "id": 2,
+    "name": "Fresh Bananas",
+    "price": 89,
+    "category": "Fruits",
+    "brand": "Local",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.8,
+    "likes": 2156
+  },
+  {
+    "id": 3,
+    "name": "Oranges (Pack of 6)",
+    "price": 149,
+    "category": "Fruits",
+    "brand": "Imported",
+    "image": "/images/products/organic orange.jpg?height=200&width=200",
+    "rating": 4.2,
+    "likes": 1089
+  },
+  {
+    "id": 4,
+    "name": "Strawberries (Pack)",
+    "price": 179,
+    "category": "Fruits",
+    "brand": "Imported",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.7,
+    "likes": 1567
+  },
+  {
+    "id": 5,
+    "name": "Pineapple (Whole)",
+    "price": 249,
+    "category": "Fruits",
+    "brand": "Local",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.5,
+    "likes": 1234
+  },
+  {
+    "id": 6,
+    "name": "Watermelon (2kg)",
+    "price": 299,
+    "category": "Fruits",
+    "brand": "Imported",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.6,
+    "likes": 1987
+  },
+  {
+    "id": 7,
+    "name": "Organic Tomatoes",
+    "price": 79,
+    "category": "Vegetables",
+    "brand": "Organic",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.7,
+    "likes": 543
+  },
+  {
+    "id": 8,
+    "name": "Fresh Spinach",
+    "price": 59,
+    "category": "Vegetables",
+    "brand": "Local",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.9,
+    "likes": 1789
+  },
+  {
+    "id": 9,
+    "name": "Cauliflower",
+    "price": 49,
+    "category": "Vegetables",
+    "brand": "Local",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.2,
+    "likes": 876
+  },
+  {
+    "id": 10,
+    "name": "Organic Potatoes",
+    "price": 99,
+    "category": "Vegetables",
+    "brand": "Organic",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.3,
+    "likes": 1256
+  },
+  {
+    "id": 11,
+    "name": "Carrots (1kg)",
+    "price": 69,
+    "category": "Vegetables",
+    "brand": "Local",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.6,
+    "likes": 1432
+  },
+  {
+    "id": 12,
+    "name": "Organic Cucumbers",
+    "price": 119,
+    "category": "Vegetables",
+    "brand": "Organic",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.4,
+    "likes": 1002
+  },
+  {
+    "id": 13,
+    "name": "Basmati Rice (5kg)",
+    "price": 599,
+    "category": "Grains and Cereals",
+    "brand": "Local",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.8,
+    "likes": 2345
+  },
+  {
+    "id": 14,
+    "name": "Brown Rice (1kg)",
+    "price": 129,
+    "category": "Grains and Cereals",
+    "brand": "Organic",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.6,
+    "likes": 1876
+  },
+  {
+    "id": 15,
+    "name": "Quinoa (500g)",
+    "price": 249,
+    "category": "Grains and Cereals",
+    "brand": "Imported",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.4,
+    "likes": 987
+  },
+  {
+    "id": 16,
+    "name": "Oats (1kg)",
+    "price": 179,
+    "category": "Grains and Cereals",
+    "brand": "Local",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.2,
+    "likes": 765
+  },
+  {
+    "id": 17,
+    "name": "Millets (1kg)",
+    "price": 299,
+    "category": "Grains and Cereals",
+    "brand": "Organic",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.7,
+    "likes": 1456
+  },
+  {
+    "id": 18,
+    "name": "Toor Dal (1kg)",
+    "price": 149,
+    "category": "Pulses and Legumes",
+    "brand": "Local",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.3,
+    "likes": 1089
+  },
+  {
+    "id": 19,
+    "name": "Masoor Dal (500g)",
+    "price": 89,
+    "category": "Pulses and Legumes",
+    "brand": "Local",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.1,
+    "likes": 654
+  },
+  {
+    "id": 20,
+    "name": "Chickpeas (1kg)",
+    "price": 159,
+    "category": "Pulses and Legumes",
+    "brand": "Organic",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.7,
+    "likes": 1234
+  },
+  {
+    "id": 21,
+    "name": "Organic Moong Dal",
+    "price": 119,
+    "category": "Pulses and Legumes",
+    "brand": "Organic",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.9,
+    "likes": 2345
+  },
+  {
+    "id": 22,
+    "name": "Cheese Slices",
+    "price": 129,
+    "category": "Dairy Products",
+    "brand": "Imported",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.1,
+    "likes": 765
+  },
+  {
+    "id": 23,
+    "name": "Organic Yogurt",
+    "price": 79,
+    "category": "Dairy Products",
+    "brand": "Organic",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 3.8,
+    "likes": 654
+  },
+  {
+    "id": 24,
+    "name": "Paneer (200g)",
+    "price": 99,
+    "category": "Dairy Products",
+    "brand": "Local",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.0,
+    "likes": 876
+  },
+  {
+    "id": 25,
+    "name": "Fresh Milk (1L)",
+    "price": 69,
+    "category": "Dairy Products",
+    "brand": "Local",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.3,
+    "likes": 1567
+  },
+  {
+    "id": 26,
+    "name": "Butter (200g)",
+    "price": 149,
+    "category": "Dairy Products",
+    "brand": "Imported",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.6,
+    "likes": 1876
+  },
+  {
+    "id": 27,
+    "name": "Turmeric Powder",
+    "price": 59,
+    "category": "Spices and Herbs",
+    "brand": "Local",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.2,
+    "likes": 987
+  },
+  {
+    "id": 28,
+    "name": "Organic Cinnamon",
+    "price": 129,
+    "category": "Spices and Herbs",
+    "brand": "Organic",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.5,
+    "likes": 765
+  },
+  {
+    "id": 29,
+    "name": "Cardamom (50g)",
+    "price": 199,
+    "category": "Spices and Herbs",
+    "brand": "Imported",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.7,
+    "likes": 543
+  },
+  {
+    "id": 30,
+    "name": "Ginger Powder",
+    "price": 99,
+    "category": "Spices and Herbs",
+    "brand": "Local",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.4,
+    "likes": 876
+  },
+  {
+    "id": 31,
+    "name": "Mustard Oil (1L)",
+    "price": 199,
+    "category": "Oils and Seeds",
+    "brand": "Local",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.3,
+    "likes": 876
+  },
+  {
+    "id": 32,
+    "name": "Organic Coconut Oil",
+    "price": 349,
+    "category": "Oils and Seeds",
+    "brand": "Organic",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.8,
+    "likes": 1234
+  },
+  {
+    "id": 33,
+    "name": "Flax Seeds (250g)",
+    "price": 149,
+    "category": "Oils and Seeds",
+    "brand": "Organic",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.4,
+    "likes": 987
+  },
+  {
+    "id": 34,
+    "name": "Olive Oil (500ml)",
+    "price": 299,
+    "category": "Oils and Seeds",
+    "brand": "Imported",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.7,
+    "likes": 1567
+  },
+  {
+    "id": 35,
+    "name": "Organic Honey",
+    "price": 299,
+    "category": "Processed Products",
+    "brand": "Organic",
+    "image": "/placeholder.svg?height=200&width=200",
+    "rating": 4.9,
+    "likes": 2156
+  }]
+  
