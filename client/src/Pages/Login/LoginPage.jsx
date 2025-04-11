@@ -1,19 +1,67 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
-import { Link } from "react-router-dom";  // Import Link from react-router-dom
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [notification, setNotification] = useState("");
+  
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleLogin = (e) => {
+  // Check for any messages from navigation (e.g., after registration)
+  useEffect(() => {
+    if (location.state?.message) {
+      setNotification(location.state.message);
+    }
+  }, [location]);
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Logging in with:", email, password);
-    navigate("/");
+    setLoading(true);
+    setError("");
+    
+    try {
+      const response = await axios.post('/api/auth/login', {
+        email,
+        password
+      });
+      
+      console.log("Login successful:", response.data);
+      
+      // Store token and user info
+      const { token, user } = response.data;
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      
+      // If "Remember Me" is checked, save in localStorage, otherwise sessionStorage
+      if (rememberMe) {
+        localStorage.setItem('authToken', token);
+      } else {
+        sessionStorage.setItem('authToken', token);
+      }
+      
+      // Redirect to home page
+      navigate("/");
+      
+    } catch (err) {
+      setError(err.response?.data?.message || "Invalid email or password");
+      console.error("Login error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleForgotPassword = () => {
+    navigate("/forgot-password");
   };
 
   return (
@@ -28,6 +76,18 @@ const Login = () => {
           <h1 className="text-3xl font-bold text-gray-800 mb-2">Welcome Back</h1>
           <p className="text-gray-500">Please sign in to your account</p>
         </div>
+
+        {notification && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+            {notification}
+          </div>
+        )}
+
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleLogin} className="space-y-6">
           <div>
@@ -44,14 +104,23 @@ const Login = () => {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button 
+                type="button"
+                className="absolute right-3 top-3.5 text-gray-500 hover:text-gray-700"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+              </button>
+            </div>
           </div>
 
           <div className="flex items-center justify-between">
@@ -64,16 +133,21 @@ const Login = () => {
               />
               <span className="text-sm text-gray-600">Remember Me</span>
             </label>
-            <a href="#" className="text-sm text-green-600 hover:text-green-700">
+            <button 
+              type="button" 
+              onClick={handleForgotPassword}
+              className="text-sm text-green-600 hover:text-green-700"
+            >
               Forgot password?
-            </a>
+            </button>
           </div>
 
           <button
             type="submit"
-            className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-medium transition-colors"
+            className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-medium transition-colors disabled:bg-gray-400"
+            disabled={loading}
           >
-            Login
+            {loading ? "Signing in..." : "Login"}
           </button>
 
           <div className="relative">
@@ -104,7 +178,6 @@ const Login = () => {
 
           <p className="text-center text-sm text-gray-600">
             Don't have an account?{" "}
-            {/* Changed the anchor tag to Link component for navigation */}
             <Link to="/signup" className="text-green-600 hover:text-green-700 font-medium">
               Sign up
             </Link>
