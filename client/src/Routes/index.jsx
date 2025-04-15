@@ -5,7 +5,6 @@ import SignupPage from "../Pages/Signup/SignupPage";
 import ProductsPage from "../Pages/Products/ProductsPage";
 import ProductDetailPage from "../Pages/Products/ProductDetailPage";
 import CartPage from "../Pages/Cart/CartPage";
-
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 
