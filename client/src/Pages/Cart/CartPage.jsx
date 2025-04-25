@@ -117,7 +117,7 @@ const CartPage = () => {
             to="/checkout"
             className="block w-full bg-black hover:bg-gray-800 text-white text-center py-3 rounded-md font-medium"
           >
-            Proceed to Pay
+            Checkout
           </Link>
         </div>
       </div>

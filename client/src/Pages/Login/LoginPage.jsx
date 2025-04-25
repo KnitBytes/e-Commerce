@@ -17,7 +17,6 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Check for any messages from navigation (e.g., after registration)
   useEffect(() => {
     if (location.state?.message) {
       setNotification(location.state.message);
@@ -28,38 +27,44 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     setError("");
-    
+  
     try {
-      const response = await axios.post('/api/auth/login', {
+      const response = await axios.post('http://localhost:5000/api/auth/login', {
         email,
         password
       });
-      
-      console.log("Login successful:", response.data);
-      
-      // Store token and user info
+
       const { token, user } = response.data;
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
-      
-      // If "Remember Me" is checked, save in localStorage, otherwise sessionStorage
+
       if (rememberMe) {
         localStorage.setItem('authToken', token);
       } else {
         sessionStorage.setItem('authToken', token);
       }
       
-      // Redirect to home page
-      navigate("/");
-      
+      window.dispatchEvent(new Event('auth-state-change'));
+      window.dispatchEvent(new Event('login-success'));
+
+      // Navigate with success message in state
+      if (user.role === 'admin') {
+        navigate('/Admin', {
+          state: { message: 'Welcome Admin!' }
+        });
+      } else {
+        navigate('/', {
+          state: { message: 'Welcome back!' }
+        });
+      }
+
     } catch (err) {
       setError(err.response?.data?.message || "Invalid email or password");
-      console.error("Login error:", err);
     } finally {
       setLoading(false);
     }
   };
-
+  
   const handleForgotPassword = () => {
     navigate("/forgot-password");
   };

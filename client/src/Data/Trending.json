@@ -1,0 +1,103 @@
+[
+    {
+      "id": 1,
+      "name": "Organic Apples",
+      "image": "/images/apples.jpg",
+      "category": "Fruits",
+      "price": 120,
+      "likes": 105,
+      "salesLast24h": 34,
+      "uoms": "kg"
+    },
+    {
+      "id": 2,
+      "name": "Almonds",
+      "image": "/images/almonds.jpg",
+      "category": "Dry Fruits",
+      "price": 650,
+      "likes": 96,
+      "salesLast24h": 29,
+      "uoms": "kg"
+    },
+    {
+      "id": 3,
+      "name": "Bananas",
+      "image": "/images/bananas.jpg",
+      "category": "Fruits",
+      "price": 60,
+      "likes": 82,
+      "salesLast24h": 45,
+      "uoms": "kg"
+    },
+    {
+      "id": 4,
+      "name": "Cashew Nuts",
+      "image": "/images/cashew.jpg",
+      "category": "Dry Fruits",
+      "price": 720,
+      "likes": 73,
+      "salesLast24h": 50,
+      "uoms": "kg"
+    },
+    {
+      "id": 5,
+      "name": "Carrots",
+      "image": "/images/carrots.jpg",
+      "category": "Vegetables",
+      "price": 80,
+      "likes": 65,
+      "salesLast24h": 38,
+      "uoms": "kg"
+    },
+    {
+      "id": 6,
+      "name": "Spinach",
+      "image": "/images/spinach.jpg",
+      "category": "Vegetables",
+      "price": 40,
+      "likes": 55,
+      "salesLast24h": 33,
+      "uoms": "kg"
+    },
+    {
+      "id": 7,
+      "name": "Mangoes",
+      "image": "/images/mangoes.jpg",
+      "category": "Fruits",
+      "price": 150,
+      "likes": 112,
+      "salesLast24h": 48,
+      "uoms": "kg"
+    },
+    {
+      "id": 8,
+      "name": "Walnuts",
+      "image": "/images/walnuts.jpg",
+      "category": "Dry Fruits",
+      "price": 850,
+      "likes": 95,
+      "salesLast24h": 25,
+      "uoms": "kg"
+    },
+    {
+      "id": 9,
+      "name": "Tomatoes",
+      "image": "/images/tomatoes.jpg",
+      "category": "Vegetables",
+      "price": 40,
+      "likes": 70,
+      "salesLast24h": 60,
+      "uoms": "kg"
+    },
+    {
+      "id": 10,
+      "name": "Grapes",
+      "image": "/images/grapes.jpg",
+      "category": "Fruits",
+      "price": 200,
+      "likes": 98,
+      "salesLast24h": 39,
+      "uoms": "kg"
+    }
+  ]
+  

@@ -10,7 +10,7 @@ const checkoutCart = async (userId, req) => {
     include: { product: true },
   });
 
-  if (!cartItems.length) throw new Error("Cart is empty");
+  if (cartItems.length > 0) throw new Error("Cart is empty");
 
   let total = 0;
   const orderItems = [];

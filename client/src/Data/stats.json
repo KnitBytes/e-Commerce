@@ -1,0 +1,28 @@
+{
+    "totalRevenue": 50212000,
+    "monthlyRevenue": 502300,
+    "dailyRevenue": 12300,
+    "criticalProducts": [
+      {
+        "name": "Tumeric",
+        "left": 3
+      },
+      {
+        "name": "Organic Honey",
+        "left": 5
+      },
+      {
+        "name": "Lays",
+        "left": 5
+      },
+      {
+        "name": "Chia Seeds",
+        "left": 7
+      },
+      {
+        "name": "Rice",
+        "left": 12
+      }
+    ]
+  }
+  

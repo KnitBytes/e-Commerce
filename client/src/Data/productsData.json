@@ -1,0 +1,113 @@
+[
+    {
+      "id": 1,
+      "name": "Tumeric",
+      "snp": "WE-001",
+      "stock": 15,
+      "status": "In Stock",
+      "price": 500,
+      "image": "/placeholder.svg?height=200&width=200",
+      "sold": 500,
+      "rating": 5
+    },
+    {
+      "id": 2,
+      "name": "Organic Honey",
+      "snp": "WE-002",
+      "stock": 5,
+      "status": "Low Stock",
+      "price": 999,
+      "image": "/placeholder.svg?height=200&width=200",
+      "sold": 477,
+      "rating": 5
+    },
+    {
+      "id": 3,
+      "name": "Lays",
+      "snp": "WE-003",
+      "stock": 5,
+      "status": "Low Stock",
+      "price": 250,
+      "image": "/placeholder.svg?height=200&width=200",
+      "sold": 350,
+      "rating": 4
+    },
+    {
+      "id": 4,
+      "name": "Chia Seeds",
+      "snp": "WE-004",
+      "stock": 7,
+      "status": "Low Stock",
+      "price": 450,
+      "image": "/placeholder.svg?height=200&width=200",
+      "sold": 280,
+      "rating": 4
+    },
+    {
+      "id": 5,
+      "name": "Rice",
+      "snp": "WE-005",
+      "stock": 12,
+      "status": "Low Stock",
+      "price": 120,
+      "image": "/placeholder.svg?height=200&width=200",
+      "sold": 600,
+      "rating": 4
+    },
+    {
+      "id": 6,
+      "name": "Tumeric",
+      "snp": "wu3231",
+      "stock": 15,
+      "status": "Low Stock",
+      "price": 500,
+      "image": "/placeholder.svg?height=200&width=200",
+      "sold": 320,
+      "rating": 5
+    },
+    {
+      "id": 7,
+      "name": "Tumeric",
+      "snp": "WE-001",
+      "stock": 15,
+      "status": "In Stock",
+      "price": 500,
+      "image": "/placeholder.svg?height=200&width=200",
+      "sold": 290,
+      "rating": 5
+    },
+    {
+      "id": 8,
+      "name": "Tumeric",
+      "snp": "WE-001",
+      "stock": 15,
+      "status": "Low Stock",
+      "price": 500,
+      "image": "/placeholder.svg?height=200&width=200",
+      "sold": 180,
+      "rating": 5
+    },
+    {
+      "id": 9,
+      "name": "Tumeric",
+      "snp": "WE-001",
+      "stock": 15,
+      "status": "In Stock",
+      "price": 500,
+      "image": "/placeholder.svg?height=200&width=200",
+      "sold": 420,
+      "rating": 5
+    },
+    {
+      "id": 10,
+      "name": "Tumeric",
+      "snp": "WE-001",
+      "stock": 15,
+      "status": "In Stock",
+      "price": 500,
+      "image": "/placeholder.svg?height=200&width=200",
+      "sold": 380,
+      "rating": 5
+    }
+  ]
+  

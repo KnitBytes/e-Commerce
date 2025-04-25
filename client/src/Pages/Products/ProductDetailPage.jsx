@@ -1,51 +1,110 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import mockProducts from "../../Data/products.json";
-import { useCart } from "../Cart/CartContext"; // Import useCart hook
+import { useParams, useNavigate } from "react-router-dom";
+import { useCart } from "../Cart/CartContext";
+import axios from "axios";
 
 export default function ProductDetailPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const { addToCart } = useCart(); // Use the cart context
+  const { addToCart } = useCart();
+
+  const API_URL = 'http://localhost:5000/api';
 
   useEffect(() => {
-    // Keep your existing data fetching approach
-    const foundProduct = mockProducts.find((item) => item.id === Number.parseInt(id));
-    setProduct(foundProduct);
+    const fetchProductDetail = async () => {
+      try {
+        setLoading(true);
+        const token = localStorage.getItem('token');
+        
+        const response = await axios.get(`${API_URL}/products/${id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        
+        const productData = response.data.data || response.data;
+
+        const sanitizedProduct = { ...productData };
+        Object.keys(sanitizedProduct).forEach(key => {
+          if (typeof sanitizedProduct[key] === 'object' && sanitizedProduct[key] !== null) {
+            if (key === 'uoms' || key === 'gallery') {
+              sanitizedProduct[key] = Array.isArray(sanitizedProduct[key]) 
+                ? sanitizedProduct[key] 
+                : JSON.stringify(sanitizedProduct[key]);
+            } else {
+              sanitizedProduct[key] = JSON.stringify(sanitizedProduct[key]);
+            }
+          }
+        });
+        
+        setProduct(sanitizedProduct);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching product details:', error);
+        setError('Failed to load product details');
+        setLoading(false);
+      }
+    };
+
+    if (id) {
+      fetchProductDetail();
+    }
   }, [id]);
 
-  if (!product) {
-    return <p className="text-center text-gray-600">Loading product...</p>;
-  }
-
   const handleAddToCart = () => {
-    // Add the selected product to the cart with the selected quantity
-    // The quantity state is already set by the +/- buttons
     for (let i = 0; i < quantity; i++) {
       addToCart(product);
     }
-    // No navigation - stays on the product detail page
   };
+
+  const handleBuyNow = () => {
+    handleAddToCart();
+    navigate("/checkout");
+  };
+
+  const safeRender = (value) => {
+    if (value === null || value === undefined) return '';
+    if (typeof value === 'object') return JSON.stringify(value);
+    return value;
+  };
+
+  if (loading) {
+    return <div className="flex justify-center items-center h-64">
+      <p className="text-center text-gray-600">Loading product...</p>
+    </div>;
+  }
+
+  if (error) {
+    return <div className="flex justify-center items-center h-64">
+      <p className="text-center text-red-600">{error}</p>
+    </div>;
+  }
+
+  if (!product) {
+    return <div className="flex justify-center items-center h-64">
+      <p className="text-center text-gray-600">Product not found</p>
+    </div>;
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row gap-8">
-        {/* Product Image and Gallery */}
         <div className="md:w-1/2">
           <div className="bg-white from-sky-200 to-purple-300 rounded-lg p-6 flex items-center justify-center">
             <img
-              src={product.image || "/placeholder.svg"}
-              alt={product.name}
+              src={product.image || "/placeholder.svg?height=400&width=400"}
+              alt={safeRender(product.name)}
               className="object-contain max-h-[400px]"
             />
           </div>
           <div className="flex mt-4 gap-2 overflow-x-auto pb-2">
-            {product.gallery &&
+            {Array.isArray(product.gallery) &&
               product.gallery.map((img, index) => (
                 <div key={index} className="flex-shrink-0 w-24 h-24 rounded-md overflow-hidden">
                   <img
-                    src={img || "/placeholder.svg"}
+                    src={img || "/placeholder.svg?height=96&width=96"}
                     alt={`Gallery ${index}`}
                     className="w-full h-full object-cover"
                   />
@@ -54,24 +113,24 @@ export default function ProductDetailPage() {
           </div>
         </div>
 
-        {/* Product Details */}
         <div className="md:w-1/2">
-          <h1 className="text-4xl font-bold">{product.name}</h1>
+          <h1 className="text-4xl font-bold">{safeRender(product.name)}</h1>
 
-          {/* Rating */}
           <div className="flex items-center mt-2">
             <div className="flex text-yellow-400">
               {Array.from({ length: 5 }).map((_, index) => (
-                <span key={index}>★</span>
+                <span key={index} className={`${index < (product.rating || 0) ? "text-yellow-400" : "text-gray-300"}`}>★</span>
               ))}
             </div>
-            <span className="ml-2 text-gray-600">({product.reviews || 0} Reviews)</span>
+            <span className="ml-2 text-gray-600">({safeRender(product.reviews_count) || 0} Reviews)</span>
           </div>
 
-          {/* Price */}
-          <p className="text-2xl font-bold text-gray-800 mt-4">RS {product.price}</p>
+          <p className="text-2xl font-bold text-gray-800 mt-4">RS {safeRender(product.price)}</p>
 
-          {/* Quantity Selector */}
+          {product.category_name && (
+            <p className="text-sm text-gray-600 mt-2">Category: {safeRender(product.category_name)}</p>
+          )}
+
           <div className="mt-6">
             <p className="font-medium mb-2">Quantity</p>
             <div className="flex items-center">
@@ -93,7 +152,6 @@ export default function ProductDetailPage() {
             </div>
           </div>
 
-          {/* Buttons */}
           <div className="mt-6 flex gap-4">
             <button 
               onClick={handleAddToCart}
@@ -101,34 +159,34 @@ export default function ProductDetailPage() {
             >
               Add to Cart
             </button>
-            <button className="border border-black px-6 py-3 rounded-md font-medium">Buy Now</button>
+            <button
+              onClick={handleBuyNow}
+              className="border border-black px-6 py-3 rounded-md font-medium hover:bg-black hover:text-white transition"
+            >
+              Buy Now
+            </button>
           </div>
 
-          {/* Divider */}
           <div className="border-t border-gray-200 my-6"></div>
 
-          {/* Product Description */}
           <div>
             <h2 className="text-xl font-bold">Product Description</h2>
-            <p className="text-gray-700 mt-2 text-sm leading-relaxed">{product.description}</p>
+            <p className="text-gray-700 mt-2 text-sm leading-relaxed">{safeRender(product.description)}</p>
 
-            {/* Product Features - If your data has features */}
             {product.features && (
               <ul className="mt-4 space-y-2">
-                {product.features.map((feature, index) => (
+                {(Array.isArray(product.features) ? product.features : []).map((feature, index) => (
                   <li key={index} className="flex items-start text-sm">
                     <span className="text-black mr-2">•</span>
-                    <span>{feature}</span>
+                    <span>{safeRender(feature)}</span>
                   </li>
                 ))}
               </ul>
             )}
           </div>
 
-          {/* Divider */}
           <div className="border-t border-gray-200 my-6"></div>
 
-          {/* Shipping and Return */}
           <div>
             <h2 className="text-xl font-bold">Shipping and Return</h2>
             <ul className="mt-4 space-y-3">

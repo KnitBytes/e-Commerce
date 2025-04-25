@@ -35,7 +35,7 @@ const Signup = () => {
         // Fetch provinces on component mount
         const fetchProvinces = async () => {
             try {
-                const response = await axios.get("/provinces");
+                const response = await axios.get("http://localhost:5000/api/provinces");
                 if (response.data.success) {
                     setProvinces(response.data.data);
                 }
@@ -53,7 +53,7 @@ const Signup = () => {
             if (formData.province_id) {
                 try {
                     const response = await axios.get(
-                        `/provinces/${formData.province_id}/districts`
+                        `http://localhost:5000/api/provinces/${formData.province_id}/districts`
                     );
                     if (response.data.success) {
                         setDistricts(response.data.data);
@@ -71,22 +71,30 @@ const Signup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Validate passwords match
+        console.log(formData.confirmPassword, formData.password);
+    
         if (formData.password !== formData.confirmPassword) {
             setError("Passwords do not match");
             return;
         }
-
-        // Remove confirmPassword and agreeTerms from data sent to server
-        const { confirmPassword, agreeTerms, ...dataToSubmit } = formData;
-
+    
+        const { confirmPassword, agreeTerms, province_id, district_id, ...restData } = formData;
+        
+        const dataToSubmit = {
+            ...restData,
+            province: province_id, 
+            district: district_id, 
+            confirmPassword: formData.confirmPassword,
+        };
+    
+        console.log("About to send this data to server:", JSON.stringify(dataToSubmit, null, 2));
+        
         setLoading(true);
         setError("");
-
+    
         try {
             const response = await axios.post(
-                "/api/auth/register",
+                "http://localhost:5000/api/auth/register",
                 dataToSubmit
             );
             console.log("Signup successful:", response.data);
@@ -94,16 +102,18 @@ const Signup = () => {
                 state: { message: "Registration successful! Please login." },
             });
         } catch (err) {
+            console.error("Full error object:", err);
+            console.error("Response data:", err.response?.data);
+            
             setError(
-                err.response?.data?.message ||
-                    "Registration failed. Please try again."
+                err.response?.data?.message || 
+                err.response?.data?.error ||
+                "Registration failed. Please try again."
             );
-            console.error("Signup error:", err);
         } finally {
             setLoading(false);
         }
     };
-
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData((prev) => ({
@@ -195,9 +205,9 @@ const Signup = () => {
                                 required
                             >
                                 <option value="">Select Gender</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="other">Other</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="ther">Other</option>
                             </select>
                         </div>
 
@@ -288,12 +298,13 @@ const Signup = () => {
                                 Province*
                             </label>
                             <select
-                                name="province"
+                                name="province_id"
                                 className="w-full px-3 py-2 text-sm rounded-md border border-gray-200 focus:ring-1 focus:ring-green-500 focus:border-green-500 outline-none"
                                 value={formData.province_id}
                                 onChange={handleChange}
                                 required
                             >
+                                <option value="">Select Province</option>
                                 {provinces.map((province) => (
                                     <option
                                         key={province.id}
@@ -310,7 +321,7 @@ const Signup = () => {
                                 District*
                             </label>
                             <select
-                                name="district"
+                                name="district_id"
                                 className="w-full px-3 py-2 text-sm rounded-md border border-gray-200 focus:ring-1 focus:ring-green-500 focus:border-green-500 outline-none"
                                 value={formData.district_id}
                                 onChange={handleChange}

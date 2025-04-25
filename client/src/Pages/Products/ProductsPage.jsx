@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Heart } from "lucide-react";
-import mockProducts from "../../Data/products.json"; // Replace with API call later
-import { useCart } from "../Cart/CartContext"; // Import useCart hook
+import { useCart } from "../Cart/CartContext";
+import axios from "axios";
 
 export default function ProductPage() {
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -17,14 +16,67 @@ export default function ProductPage() {
   const { addToCart } = useCart();
   const productsPerPage = 16;
 
+  const API_URL = 'http://localhost:5000/api'; 
   useEffect(() => {
-    setProducts(mockProducts);
-    setFilteredProducts(mockProducts);
-  }, []);
+    const fetchProducts = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        try {
+          const response = await axios.get(`${API_URL}/products`, {
+            params: { page: 1, limit: 10 },
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          const responseData = response.data;
+          console.log('API response:', responseData);
+          
+          // Extract products array from the response
+          const productsData = responseData.data || responseData;
+          
+      
+          const sanitizedProducts = Array.isArray(productsData) 
+            ? productsData.map(product => {
+                // Create a sanitized version of the product
+                const sanitized = { ...product };
+                
 
+                Object.keys(sanitized).forEach(key => {
+                  if (typeof sanitized[key] === 'object' && sanitized[key] !== null) {
+                    
+                    if (key === 'uoms') {
+                      
+                      sanitized[key] = Array.isArray(sanitized[key]) 
+                        ? sanitized[key] 
+                        : JSON.stringify(sanitized[key]);
+                    } else {
+                      // Convert other object properties to string
+                      sanitized[key] = JSON.stringify(sanitized[key]);
+                    }
+                  }
+                });
+                
+                return sanitized;
+              }) 
+            : [];
+          
+          setProducts(sanitizedProducts);
+          setFilteredProducts(sanitizedProducts);
+        } catch (apiError) {
+          console.warn('Products API not available, using mock data:', apiError);
+          setProducts([]);
+          setFilteredProducts([]);
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        setProducts([]);
+        setFilteredProducts([]);
+      }
+    };
+  
+    fetchProducts();
+  }, []);
+  
   useEffect(() => {
     let result = [...products];
-
 
     if (selectedCategories.length > 0) {
       result = result.filter((product) =>
@@ -32,13 +84,11 @@ export default function ProductPage() {
       );
     }
 
-
     if (selectedBrands.length > 0) {
       result = result.filter((product) =>
         selectedBrands.includes(product.brand)
       );
     }
-
 
     if (priceRange.min !== "") {
       result = result.filter(
@@ -51,11 +101,9 @@ export default function ProductPage() {
       );
     }
 
-    
     if (selectedRating > 0) {
       result = result.filter((product) => product.rating >= selectedRating);
     }
-
 
     if (sort === "price_low_high") {
       result.sort((a, b) => a.price - b.price);
@@ -102,13 +150,15 @@ export default function ProductPage() {
 
   const handleFilter = () => {};
 
+  // Ensure filteredProducts is an array before using slice
+  const safeFilteredProducts = Array.isArray(filteredProducts) ? filteredProducts : [];
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(
+  const currentProducts = safeFilteredProducts.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  const totalPages = Math.ceil(safeFilteredProducts.length / productsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -116,6 +166,13 @@ export default function ProductPage() {
     e.preventDefault();
     e.stopPropagation();
     addToCart(product);
+  };
+
+  // Helper function to safely render potentially problematic values
+  const safeRender = (value) => {
+    if (value === null || value === undefined) return '';
+    if (typeof value === 'object') return JSON.stringify(value);
+    return value;
   };
 
   return (
@@ -152,27 +209,7 @@ export default function ProductPage() {
           <button className="text-blue-500 text-xs mt-1">VIEW MORE</button>
         </div>
 
-
-        <div className="mb-6">
-          <h3 className="font-semibold mb-2">Brand</h3>
-          <ul className="space-y-1">
-            {["Organic", "Natural", "Local", "Imported"].map((brand) => (
-              <li key={brand} className="text-sm">
-                <label className="flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    className="mr-2"
-                    checked={selectedBrands.includes(brand)}
-                    onChange={() => handleBrandChange(brand)}
-                  />
-                  {brand}
-                </label>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-
+        
         <div className="mb-6">
           <h3 className="font-semibold mb-2">Pricing</h3>
           <div className="flex items-center gap-2 mb-2">
@@ -193,7 +230,6 @@ export default function ProductPage() {
             />
           </div>
         </div>
-
 
         <div className="mb-6">
           <h3 className="font-semibold mb-2">Rating</h3>
@@ -260,41 +296,32 @@ export default function ProductPage() {
             currentProducts.map((product) => (
               <div
                 key={product.id}
-                className="border rounded-md overflow-hidden transition-shadow border border-gray-200 hover:shadow-md"
+                className="border-3 rounded-md overflow-hidden transition-shadow border border-black-200 hover:shadow-md"
               >
                 <Link to={`/products/${product.id}`} className="block">
                   <div className="relative">
                     <img
                       src={
-                        product.image ||
-                        "/placeholder.svg?height=200&width=200"
+                        product.image || "/placeholder.svg?height=200&width=200"
                       }
-                      alt={product.name}
+                      alt={product.name || "Product"}
                       className="w-full h-40 object-cover"
                     />
                     <div className="absolute bottom-2 left-2 bg-white text-xs px-2 py-1 rounded">
-                      Organic food
                     </div>
                   </div>
                   <div className="p-3">
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="font-bold">Rs {product.price}</span>
-                      <div className="flex items-center gap-1">
-                        <button className="text-gray-400 hover:text-red-500">
-                          <Heart size={16} />
-                        </button>
-                        <span className="text-xs">{product.likes || 0}</span>
-                      </div>
+                    <h3 className="text-sm font-medium mb-1">{safeRender(product.name)}</h3>
+                    <p className="text-xs text-gray-500 mb-1">{safeRender(product.category_name)}</p>
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-bold text-sm">Rs {safeRender(product.price)}</span>
+                      <button
+                        onClick={(e) => handleAddToCart(product, e)}
+                        className="ml-2 w-[100px] h-8 bg-black text-white text-[12px] font-bold rounded-md hover:bg-gray-800 transition"
+                      >
+                        Add to cart
+                      </button>
                     </div>
-                    <h3 className="text-sm font-medium mb-2">
-                      {product.name}
-                    </h3>
-                    <button
-                      onClick={(e) => handleAddToCart(product, e)}
-                      className="w-full bg-black hover:bg-gray-800 text-white text-xs py-1 rounded transition"
-                    >
-                      Add to cart
-                    </button>
                   </div>
                 </Link>
               </div>
@@ -311,9 +338,7 @@ export default function ProductPage() {
           <div className="flex justify-center mt-8">
             <nav className="flex items-center gap-1">
               <button
-                onClick={() =>
-                  paginate(currentPage > 1 ? currentPage - 1 : 1)
-                }
+                onClick={() => paginate(currentPage > 1 ? currentPage - 1 : 1)}
                 disabled={currentPage === 1}
                 className="border px-2 py-1 rounded"
               >
@@ -342,9 +367,7 @@ export default function ProductPage() {
                     key={index}
                     onClick={() => paginate(pageNumber)}
                     className={`w-8 h-8 flex items-center justify-center rounded ${
-                      currentPage === pageNumber
-                      ? "bg-black text-white"
-                      : "border"
+                      currentPage === pageNumber ? "bg-black text-white" : "border"
                     }`}
                   >
                     {pageNumber}
@@ -358,9 +381,7 @@ export default function ProductPage() {
 
               <button
                 onClick={() =>
-                  paginate(
-                    currentPage < totalPages ? currentPage + 1 : totalPages
-                  )
+                  paginate(currentPage < totalPages ? currentPage + 1 : totalPages)
                 }
                 disabled={currentPage === totalPages}
                 className="border px-2 py-1 rounded"
@@ -373,6 +394,4 @@ export default function ProductPage() {
       </div>
     </div>
   );
-
-
 }
